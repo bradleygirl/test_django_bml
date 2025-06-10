@@ -1,0 +1,38 @@
+{% extends "blogs/base.html" %} {% block content %}
+{% if user.is_authenticated %}
+<h2>My account | {{ user.username }}</h2>
+    <div class="container">
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <div>
+        <p><strong>Blogs:</strong></p>
+        {% if user_blogs %}
+        <ul>
+            {% for blog in user_blogs %}
+                <li><span><a href="{% url 'blogs:blog' blog.id %}">{{ blog.title }}</a></span> | <span><a class="" href="{% url 'blogs:new_post' blog.id %}">Create A Post</a></span></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>You don't have any blogs yet.</p>
+        <a class="button primary" href="{% url 'blogs:new_blog' %}">Create A Blog</a>
+        {% endif %}
+    </div
+    {% if user_blogs %}>
+    <div>
+        <p><strong>Posts:</strong></p>
+        {% if user_posts %}
+        <ul>
+            {% for post in user_posts %}
+                <li><a href="{% url 'blogs:post' post.id %}">{{ post.title }}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>You don't have any posts yet.</p>
+        {% endif %}
+    </div>
+    {% endif %}
+    
+{% else %}
+    <p>Please log in to view your account information.</p>
+{% endif %}
+{% endblock content %}
